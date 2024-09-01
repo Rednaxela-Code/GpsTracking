@@ -126,17 +126,17 @@ namespace Api.Controllers
                 return BadRequest("ID mismatch");
             }
 
-            var existingGpsPoint = await _context.gpsPoints.FindAsync(id);
-            if (existingGpsPoint == null)
+            var existingPoint = await _context.gpsPoints.FindAsync(id);
+            if (existingPoint == null)
             {
                 return NotFound();
             }
 
-            existingGpsPoint.Latitude = gpsPoint.Latitude;
-            existingGpsPoint.Longitude = gpsPoint.Longitude;
-            existingGpsPoint.Altitude = gpsPoint.Altitude;
-            existingGpsPoint.SatelliteCount = gpsPoint.SatelliteCount;
-            existingGpsPoint.Timestamp = gpsPoint.Timestamp;
+            existingPoint.Latitude = gpsPoint.Latitude;
+            existingPoint.Longitude = gpsPoint.Longitude;
+            existingPoint.Altitude = gpsPoint.Altitude;
+            existingPoint.SatelliteCount = gpsPoint.SatelliteCount;
+            existingPoint.Timestamp = gpsPoint.Timestamp;
 
             await _context.SaveChangesAsync();
 
