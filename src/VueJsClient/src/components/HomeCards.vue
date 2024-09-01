@@ -1,11 +1,12 @@
 <script setup>
+import Card from './Card.vue';
 </script>
 
 <template>
     <section class="py-4">
     <div class="container-xl lg:container m-auto">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 rounded-lg">
-        <div class="bg-gray-100 p-6 rounded-lg shadow-md">
+        <Card>
           <h2 class="text-2xl font-bold">For Enthousiasts</h2>
           <p class="mt-2 mb-4">
             Browse our simple Gps tracker today
@@ -16,8 +17,8 @@
           >
             Browse Functions
           </a>
-        </div>
-        <div class="bg-green-100 p-6 rounded-lg shadow-md">
+        </Card>
+        <Card bg="bg-green-100">
           <h2 class="text-2xl font-bold">For Developers</h2>
           <p class="mt-2 mb-4">
             See how to use our API
@@ -28,7 +29,7 @@
           >
             See Documentation
           </a>
-        </div>
+        </Card>
       </div>
     </div>
   </section>
