@@ -1,4 +1,11 @@
 <script setup>
+import { RouterLink, useRoute } from 'vue-router';
+import logo from '/Dev/GpsTracking/src/VueJsClient/src/assets/vue.svg';
+
+const isActiveLink = (routePath) => {
+  const route = useRoute();
+  return route.path === routePath;
+}
 </script>
 
 <template>
@@ -9,28 +16,47 @@
           class="flex flex-1 items-center justify-center md:items-stretch md:justify-start"
         >
           <!-- Logo -->
-          <a class="flex flex-shrink-0 items-center mr-4" href="index.html">
-            <img class="h-10 w-auto" v-bind:src="logo" alt="GpsLogo" />
+          <img class="h-10 w-auto" :src="logo" alt="Logo" />
+          <RouterLink class="flex flex-shrink-0 items-center mr-4" to="/">
             <span class="hidden md:block text-white text-2xl font-bold ml-2"
               >Gps Tracker</span
             >
-          </a>
+          </RouterLink>
           <div class="md:ml-auto">
             <div class="flex space-x-2">
-              <a
-                href="index.html"
-                class="text-white bg-green-900 hover:bg-gray-900 hover:text-white rounded-md px-3 py-2"
-                >Home</a
+              <RouterLink
+                to="/"
+                :class="[
+                  isActiveLink('/')
+                 ? 'bg-green-900'
+                 : 'hover:bg-gray-900 hover:text-white',
+                 'text-white',
+                 'px-3',
+                 'py-2',
+                 'rounded-md']"
+                >Home</RouterLink
               >
-              <a
-                href="jobs.html"
-                class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                >Info</a
+              <RouterLink
+                to="/info"
+                :class="[isActiveLink('/info')
+                 ? 'bg-green-900'
+                 : 'hover:bg-gray-900 hover:text-white',
+                 'text-white',
+                 'px-3',
+                 'py-2',
+                 'rounded-md']"
+                >Info</RouterLink
               >
-              <a
-                href="add-job.html"
-                class="text-white hover:bg-green-900 hover:text-white rounded-md px-3 py-2"
-                >Tracker</a
+              <RouterLink
+                to="/tracker"
+                :class="[isActiveLink('/tracker')
+                 ? 'bg-green-900'
+                 : 'hover:bg-gray-900 hover:text-white',
+                 'text-white',
+                 'px-3',
+                 'py-2',
+                 'rounded-md']"
+                >Tracker</RouterLink
               >
             </div>
           </div>
