@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
-using System.Collections.Generic;
 
 namespace Api.Data
 {
@@ -16,6 +15,7 @@ namespace Api.Data
 
         }
 
-        public DbSet<GpsPoint> gpsPoints { get; set; }
+        public DbSet<GpsPoint> GpsPoints { get; set; }
+        public DbSet<Article> Articles { get; set; }
     }
 }
