@@ -6,7 +6,7 @@ using Shared.Models;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ArticleController : ControllerBase
     {
         private readonly ILogger<ArticleController> _logger;
@@ -18,27 +18,24 @@ namespace Api.Controllers
             _context = context;
         }
 
-        [HttpPost("add")]
-        public async Task<ActionResult<ArticleController>> PostArticle(Article article)
+        [HttpPost("single")]
+        public async Task<ActionResult<Article>> PostSingleArticle(Article articleSingle)
         {
-            if (article == null)
+            if (articleSingle == null)
             {
                 return BadRequest();
             }
 
-            _context.Articles.Add(article);
+            _context.Articles.Add(articleSingle);
             await _context.SaveChangesAsync();
 
             return Ok();
-
-            // Return a CreatedAtAction result with the product and its URI [OPTIONAL]
-            // return CreatedAtAction(nameof(GetGpsPointById), new { id = point.Id }, point);
         }
 
-        [HttpPost("addRange")]
-        public async Task<ActionResult<List<Article>>> PostList(List<Article> articles)
+        [HttpPost("list")]
+        public async Task<ActionResult> PostList([FromBody] List<Article> articles)
         {
-            if (articles == null)
+            if (articles == null || !articles.Any())
             {
                 return BadRequest();
             }
@@ -52,12 +49,11 @@ namespace Api.Controllers
         [HttpGet("getAll")]
         public async Task<ActionResult> GetAll()
         {
-            var points = await _context.Articles.OrderBy(p => p.DatePublished).ToListAsync();
-
-            return Ok(points);
+            var articles = await _context.Articles.OrderBy(p => p.DatePublished).ToListAsync();
+            return Ok(articles);
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<Article>> GetArticleById(Guid id)
         {
             var article = await _context.Articles.FindAsync(id);
@@ -70,32 +66,33 @@ namespace Api.Controllers
             return Ok(article);
         }
 
-        [HttpGet("byIds")]
-        public async Task<ActionResult<List<Article>>> GetArticlesById([FromQuery] List<Guid> ids)
+        [HttpGet("ids")]
+        public async Task<ActionResult<List<Article>>> GetArticlesById([FromQuery] List<Guid> idsList)
         {
-            if (ids == null || !ids.Any())
+            if (idsList == null || !idsList.Any())
             {
                 return BadRequest("No IDs provided.");
             }
 
             var articles = await _context.Articles
-                                          .Where(g => ids.Contains(g.Id))
+                                          .Where(g => idsList.Contains(g.Id))
                                           .ToListAsync();
 
             if (!articles.Any())
             {
-                return NotFound("No GPS points found for the provided IDs.");
+                return NotFound("No articles found for the provided IDs.");
             }
 
             return Ok(articles);
         }
 
-        [HttpDelete("delete")]
-        public async Task<ActionResult<Article>> DeleteArticle(Article article)
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult> DeleteArticle(Guid id)
         {
+            var article = await _context.Articles.FindAsync(id);
             if (article == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             _context.Articles.Remove(article);
@@ -104,26 +101,35 @@ namespace Api.Controllers
             return Ok();
         }
 
-        [HttpDelete("deleteRange")]
-        public async Task<ActionResult<List<Article>>> DeleteRange(List<Article> articlesDelete)
+        [HttpDelete("range")]
+        public async Task<ActionResult> DeleteArticlesRange([FromBody] List<Guid> articleIds)
         {
-            if (articlesDelete == null)
+            if (articleIds == null || !articleIds.Any())
             {
                 return BadRequest();
             }
 
-            _context.Articles.RemoveRange(articlesDelete);
+            var articles = await _context.Articles
+                                         .Where(a => articleIds.Contains(a.Id))
+                                         .ToListAsync();
+
+            if (!articles.Any())
+            {
+                return NotFound("No articles found for the provided IDs.");
+            }
+
+            _context.Articles.RemoveRange(articles);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
-        [HttpPut("update")]
-        public async Task<IActionResult> UpdateArticle(Guid id, Article article)
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateArticle(Guid id, [FromBody] Article articleUpdate)
         {
-            if (id != article.Id)
+            if (id != articleUpdate.Id)
             {
-                return BadRequest("ID mismatch");
+                return BadRequest("Article ID mismatch.");
             }
 
             var existingArticle = await _context.Articles.FindAsync(id);
@@ -132,18 +138,15 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            existingArticle.Name = article.Name;
-            existingArticle.Author = article.Author;
-            existingArticle.DatePublished = article.DatePublished;
-            existingArticle.Subject = article.Subject;
-            existingArticle.Content = article.Content;
+            existingArticle.Name = articleUpdate.Name;
+            existingArticle.Author = articleUpdate.Author;
+            existingArticle.DatePublished = articleUpdate.DatePublished;
+            existingArticle.Subject = articleUpdate.Subject;
+            existingArticle.Content = articleUpdate.Content;
+            existingArticle.AuthorEmail = articleUpdate.AuthorEmail;
+            existingArticle.AuthorDescription = articleUpdate.AuthorDescription;
 
             await _context.SaveChangesAsync();
-
-            if (!_context.Articles.Any(e => e.Id == id))
-            {
-                return NotFound();
-            }
 
             return NoContent();
         }

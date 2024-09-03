@@ -1,5 +1,6 @@
 <script setup>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import BackButton from '../components/BackButton.vue';
 import { reactive, onMounted } from 'vue';
 import { useRoute, RouterLink} from 'vue-router';
 import axios from 'axios';
@@ -9,16 +10,16 @@ const route = useRoute();
 const articleId = route.params.id;
 
 const state = reactive({
-  articles: [],
+  Article: {},
   isLoading: true,
 });
 
 onMounted(async () => {
   try {
-    const url = `http://localhost:5500/articles/${articleId}`;
+    const url = `/api/Article/${articleId}`;
     console.log(url);
     const response = await axios.get(url);
-    state.articles = response.data;
+    state.Article = response.data;
     console.log(response.data);
   } catch (error) {
     console.error('Error fetching article', error);
@@ -29,6 +30,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <BackButton />
     <section v-if="!state.isLoading" class="bg-green-50">
       <div class="container m-auto py-10 px-6">
         <div class="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
@@ -36,73 +38,71 @@ onMounted(async () => {
             <div
               class="bg-white p-6 rounded-lg shadow-md text-center md:text-left"
             >
-              <h1 class="text-3xl font-bold mb-4">{{ state.articles.Name }}</h1>
-              <div class="text-gray-500 mb-4">{{ state.articles.DatePublished }}</div>
-              <div
-                class="text-gray-500 mb-4 flex align-middle justify-center md:justify-start"
-              >
-                <i
-                  class="fa-solid fa-location-dot text-lg text-orange-700 mr-2"
-                ></i>
-                <p class="text-orange-700">Boston, MA</p>
+              <h1 class="text-3xl font-bold mb-4">{{ state.Article.name }}</h1>
+              <div class="text-gray-500 mb-4">{{ state.Article.datePublished }}</div>
+              <div class="text-gray-500 mb-4 flex align-middle justify-center md:justify-start">
+                <p class="text-orange-700">{{state.Article.author}}</p>
               </div>
             </div>
 
             <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-              <!-- <h3 class="text-green-800 text-lg font-bold mb-6">
-                Job Description
-              </h3> -->
-
               <p class="mb-4">
-                {{state.articles.Content}}
+                {{state.Article.content}}
               </p>
-
-              <h3 class="text-green-800 text-lg font-bold mb-2">Salary</h3>
-
-              <p class="mb-4">$70k - $80K / Year</p>
+              <br />
+              <p class="mb-4">
+                {{state.Article.content}}
+              </p>
+              <br />
+              <p class="mb-4">
+                {{state.Article.content}}
+              </p>
+              <br />
+              <p class="mb-4">
+                {{state.Article.content}}
+              </p>
+              <br />
+              <p class="mb-4">
+                {{state.Article.content}}
+              </p>
+              <br />
+              <p class="mb-4">
+                {{state.Article.content}}
+              </p>
+              <br />
             </div>
           </main>
 
           <!-- Sidebar -->
           <aside>
-            <!-- Company Info -->
             <div class="bg-white p-6 rounded-lg shadow-md">
-              <h3 class="text-xl font-bold mb-6">Company Info</h3>
+              <h3 class="text-xl font-bold mb-6">Author Info</h3>
 
-              <h2 class="text-2xl">NewTek Solutions</h2>
+              <h2 class="text-2xl">{{state.Article.author}}</h2>
 
               <p class="my-2">
-                NewTek Solutions is a leading technology company specializing in
-                web development and digital solutions. We pride ourselves on
-                delivering high-quality products and services to our clients
-                while fostering a collaborative and innovative work environment.
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium debitis corporis officiis enim aspernatur provident facere officia tempora, sit ab? Explicabo, dolor. Similique enim est rerum quo harum doloribus deserunt.
               </p>
 
               <hr class="my-4" />
 
-              <h3 class="text-xl">Contact Email:</h3>
+              <h3 class="text-xl">Contact:</h3>
 
               <p class="my-2 bg-green-100 p-2 font-bold">
                 contact@newteksolutions.com
               </p>
-
-              <h3 class="text-xl">Contact Phone:</h3>
-
-              <p class="my-2 bg-green-100 p-2 font-bold">555-555-5555</p>
             </div>
 
             <!-- Manage -->
             <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-              <h3 class="text-xl font-bold mb-6">Manage Job</h3>
-              <a
-                href="add-job.html"
+              <h3 class="text-xl font-bold mb-6">Manage Article</h3>
+              <RouterLink
+                :to="`/article/edit/${state.Article.id}`"
                 class="bg-green-500 hover:bg-green-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-                >Edit Job</a
-              >
-              <button
-                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
-              >
-                Delete Job
+                >Edit Article
+                </RouterLink>
+              <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+                Delete Article
               </button>
             </div>
           </aside>

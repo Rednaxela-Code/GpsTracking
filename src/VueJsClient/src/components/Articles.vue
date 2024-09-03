@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, onMounted, reactive } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import Article from './Article.vue';
 import { RouterLink } from 'vue-router';
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
@@ -20,7 +20,7 @@ const state = reactive({
 
 onMounted(async () => {
   try {
-    const response = await axios.get('http://localhost:5500/articles');
+    const response = await axios.get('/api/Article/getAll');
     state.articles = response.data;
   } catch (error) {
     console.error('Error fetching articles', error);
@@ -38,7 +38,7 @@ onMounted(async () => {
         </h2>
         <div v-if="state.isLoading" class="text-center text-gray-500 py-6"><PulseLoader /></div>
         <div v-if="!state.isLoading" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-           <Article v-for="article in state.articles.slice(0, limit || state.articles.length)" :key="article.Id" :article="article" />
+           <Article v-for="article in state.articles.slice(0, limit || state.articles.length)" :key="article.id" :article="article" />
         </div>
       </div>
     </section>

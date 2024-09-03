@@ -36,14 +36,14 @@ namespace Tests
         {
             // Arrange
             var point = new GpsPoint { Latitude = 10.0, Longitude = 20.0, Altitude = 0, SatelliteCount = 10, Timestamp = DateTime.Now };
-            _mockContext.Setup(x => x.gpsPoints.Add(It.IsAny<GpsPoint>()));
+            _mockContext.Setup(x => x.GpsPoints.Add(It.IsAny<GpsPoint>()));
             _mockContext.Setup(x => x.SaveChangesAsync(default)).ReturnsAsync(1);
 
             // Act
             var result = await _controller.PostGpsPoint(point);
 
             // Assert
-            _mockContext.Verify(x => x.gpsPoints.Add(It.IsAny<GpsPoint>()), Times.Once);
+            _mockContext.Verify(x => x.GpsPoints.Add(It.IsAny<GpsPoint>()), Times.Once);
             _mockContext.Verify(x => x.SaveChangesAsync(default), Times.Once);
             result.Should().BeOfType<OkResult>();
         }

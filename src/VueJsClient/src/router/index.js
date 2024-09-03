@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import TrackerView from '../views/TrackerView.vue';
 import ArticlesView from '../views/ArticlesView.vue';
+import AddArticleView from '../views/AddArticleView.vue';
 import NotFoundView from '../components/NotFoundView.vue';
 import ArticleView from '../views/ArticleView.vue';
 
@@ -14,17 +14,17 @@ const router = createRouter({
             component: HomeView,
         },
         {
-            path: '/tracker',
-            name: 'tracker',
-            component: TrackerView,
-        },
-        {
             path: '/articles',
             name: 'articles',
             component: ArticlesView,
         },
         {
-            path: '/articles/:id',
+            path: '/article/add',
+            name: 'articleAdd',
+            component: AddArticleView,
+        },
+        {
+            path: '/article/:id',
             name: 'article',
             component: ArticleView,
         },

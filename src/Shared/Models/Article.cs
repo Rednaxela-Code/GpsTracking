@@ -14,25 +14,30 @@ namespace Shared.Models
         public string Subject { get; set; }
         [Required]
         public string Content { get; set; }
+        [Required]
+        public string AuthorDescription { get; set; }
+        [Required]
+        public string AuthorEmail { get; set; }
 
         public Article()
         {
             
         }
 
-        public Article(string name, string author, DateTime datePublished, string subject, string content)
+        public Article(string name, string author, DateTime datePublished, string subject, string content, string authorDescription, string authorEmail)
         {
             Name = name;
             Author = author;
             DatePublished = datePublished;
             Subject = subject;
             Content = content;
-
+            AuthorDescription = authorDescription;
+            AuthorEmail = authorEmail;
         }
 
         public override string ToString()
         {
-            return $"Id : {Id}, Name: {Name}, Author: {Author}, DatePublished: {DatePublished.ToString()}, Subject: {Subject}, Content: {Content}";
+            return $"Id : {Id}, Name: {Name}, Author: {Author}, DatePublished: {DatePublished.ToString()}, Subject: {Subject}, Content: {Content}, Author Description: {AuthorDescription}, Author Email: {AuthorEmail}";
         }
     }
 }
