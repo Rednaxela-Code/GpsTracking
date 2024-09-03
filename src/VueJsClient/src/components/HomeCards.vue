@@ -10,14 +10,14 @@ import Card from './Card.vue';
         <Card>
           <h2 class="text-2xl font-bold">For Enthousiasts</h2>
           <p class="mt-2 mb-4">
-            Browse our simple Gps tracker today
+            Browse our Gps articles today
           </p>
-          <a
-            href="jobs.html"
+          <RouterLink
+            to="/articles/"
             class="inline-block bg-black text-white rounded-lg px-4 py-2 hover:bg-gray-700"
           >
-            Browse Functions
-          </a>
+            Browse Articles
+          </RouterLink>
         </Card>
 
         <Card bg="bg-green-100">
@@ -25,12 +25,12 @@ import Card from './Card.vue';
           <p class="mt-2 mb-4">
             See how to use our API
           </p>
-          <a
-            href="add-job.html"
+          <RouterLink
+            to="/info/"
             class="inline-block bg-green-500 text-white rounded-lg px-4 py-2 hover:bg-green-600"
           >
             See Documentation
-          </a>
+          </RouterLink>
         </Card>
 
       </div>
