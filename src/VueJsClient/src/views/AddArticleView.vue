@@ -30,9 +30,11 @@ const handleSubmit = async () => {
   };
 
   try {
-    const url = 'http://localhost:5219/Article/single/';
+    const url = 'http://localhost:5219/api/Article/single/';
     console.log(url);
     const response = await axios.post(url, newArticle);
+    console.log(response.data.id);
+    router.push(`/articles/`);
   } catch (error) {
     console.error('Error posting article', error);
   } finally {

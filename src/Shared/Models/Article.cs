@@ -9,7 +9,7 @@ namespace Shared.Models
         [Required]
         public string Author { get; set; }
         [Required]
-        public DateTime DatePublished { get; set; }
+        public string DatePublished { get; set; }
         [Required]
         public string Subject { get; set; }
         [Required]
@@ -24,7 +24,7 @@ namespace Shared.Models
             
         }
 
-        public Article(string name, string author, DateTime datePublished, string subject, string content, string authorDescription, string authorEmail)
+        public Article(string name, string author, string datePublished, string subject, string content, string authorDescription, string authorEmail)
         {
             Name = name;
             Author = author;
@@ -37,7 +37,7 @@ namespace Shared.Models
 
         public override string ToString()
         {
-            return $"Id : {Id}, Name: {Name}, Author: {Author}, DatePublished: {DatePublished.ToString()}, Subject: {Subject}, Content: {Content}, Author Description: {AuthorDescription}, Author Email: {AuthorEmail}";
+            return $"Id : {Id}, Name: {Name}, Author: {Author}, DatePublished: {DatePublished}, Subject: {Subject}, Content: {Content}, Author Description: {AuthorDescription}, Author Email: {AuthorEmail}";
         }
     }
 }

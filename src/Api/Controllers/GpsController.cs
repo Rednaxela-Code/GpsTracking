@@ -59,7 +59,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<GpsPoint>> GetGpsPointById(Guid id)
+        public async Task<ActionResult<GpsPoint>> GetGpsPointById(int id)
         {
             var gpsPoint = await _context.GpsPoints.FindAsync(id);
 
@@ -72,7 +72,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("byIds")]
-        public async Task<ActionResult<List<GpsPoint>>> GetGpsPointsById([FromQuery] List<Guid> ids)
+        public async Task<ActionResult<List<GpsPoint>>> GetGpsPointsById([FromQuery] List<int> ids)
         {
             if (ids == null || !ids.Any())
             {
@@ -120,7 +120,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateGpsPoint(Guid id, GpsPoint gpsPoint)
+        public async Task<IActionResult> UpdateGpsPoint(int id, GpsPoint gpsPoint)
         {
             if (id != gpsPoint.Id)
             {

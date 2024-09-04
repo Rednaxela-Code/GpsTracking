@@ -16,7 +16,7 @@ const state = reactive({
 
 onMounted(async () => {
   try {
-    const url = `/api/Article/${articleId}`;
+    const url = `	http://localhost:5219/api/Article/${articleId}`;
     console.log(url);
     const response = await axios.get(url);
     state.Article = response.data;

@@ -53,8 +53,8 @@ namespace Api.Controllers
             return Ok(articles);
         }
 
-        [HttpGet("{id:guid}")]
-        public async Task<ActionResult<Article>> GetArticleById(Guid id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Article>> GetArticleById(int id)
         {
             var article = await _context.Articles.FindAsync(id);
 
@@ -67,7 +67,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("ids")]
-        public async Task<ActionResult<List<Article>>> GetArticlesById([FromQuery] List<Guid> idsList)
+        public async Task<ActionResult<List<Article>>> GetArticlesById([FromQuery] List<int> idsList)
         {
             if (idsList == null || !idsList.Any())
             {
@@ -87,7 +87,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult> DeleteArticle(Guid id)
+        public async Task<ActionResult> DeleteArticle(int id)
         {
             var article = await _context.Articles.FindAsync(id);
             if (article == null)
@@ -102,7 +102,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete("range")]
-        public async Task<ActionResult> DeleteArticlesRange([FromBody] List<Guid> articleIds)
+        public async Task<ActionResult> DeleteArticlesRange([FromBody] List<int> articleIds)
         {
             if (articleIds == null || !articleIds.Any())
             {
@@ -125,7 +125,7 @@ namespace Api.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> UpdateArticle(Guid id, [FromBody] Article articleUpdate)
+        public async Task<IActionResult> UpdateArticle(int id, [FromBody] Article articleUpdate)
         {
             if (id != articleUpdate.Id)
             {

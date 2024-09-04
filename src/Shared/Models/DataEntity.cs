@@ -5,6 +5,6 @@ namespace Shared.Models
     public class DataEntity
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
     }
 }
