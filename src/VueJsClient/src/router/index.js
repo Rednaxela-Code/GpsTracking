@@ -4,6 +4,7 @@ import ArticlesView from '../views/ArticlesView.vue';
 import AddArticleView from '../views/AddArticleView.vue';
 import NotFoundView from '../components/NotFoundView.vue';
 import ArticleView from '../views/ArticleView.vue';
+import EditArticleView from '../views/EditArticleView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,6 +23,11 @@ const router = createRouter({
             path: '/article/add',
             name: 'articleAdd',
             component: AddArticleView,
+        },
+        {
+            path: '/article/edit/:id',
+            name: 'articleEdit',
+            component: EditArticleView,
         },
         {
             path: '/article/:id',
