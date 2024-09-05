@@ -26,6 +26,8 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
+            articleSingle.DatePublished = DateTime.Now;
+
             _context.Articles.Add(articleSingle);
             await _context.SaveChangesAsync();
 
@@ -40,6 +42,11 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
+            foreach (var item in articles)
+            {
+                item.DatePublished = DateTime.Now;
+            }
+
             _context.Articles.AddRange(articles);
             await _context.SaveChangesAsync();
 
@@ -49,7 +56,7 @@ namespace Api.Controllers
         [HttpGet("getAll")]
         public async Task<ActionResult> GetAll()
         {
-            var articles = await _context.Articles.OrderBy(p => p.DatePublished).ToListAsync();
+            var articles = await _context.Articles.ToListAsync();
             return Ok(articles);
         }
 
@@ -86,7 +93,7 @@ namespace Api.Controllers
             return Ok(articles);
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteArticle(int id)
         {
             var article = await _context.Articles.FindAsync(id);
@@ -124,7 +131,7 @@ namespace Api.Controllers
             return Ok();
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateArticle(int id, [FromBody] Article articleUpdate)
         {
             if (id != articleUpdate.Id)

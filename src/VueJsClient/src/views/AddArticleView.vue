@@ -21,7 +21,7 @@ const handleSubmit = async () => {
   const newArticle = {
     name: form.name,
   author: form.author,
-  datePublished: currentDateTime,
+  // datePublished: currentDateTime,
   subject: form.subject,
   content: form.content,
   category: form.category,

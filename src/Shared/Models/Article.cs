@@ -9,7 +9,7 @@ namespace Shared.Models
         [Required]
         public string Author { get; set; }
         [Required]
-        public string DatePublished { get; set; }
+        public DateTime DatePublished { get; set; }
         [Required]
         public string Subject { get; set; }
         [Required]
@@ -24,7 +24,7 @@ namespace Shared.Models
             
         }
 
-        public Article(string name, string author, string datePublished, string subject, string content, string authorDescription, string authorEmail)
+        public Article(string name, string author, DateTime datePublished, string subject, string content, string authorDescription, string authorEmail)
         {
             Name = name;
             Author = author;
