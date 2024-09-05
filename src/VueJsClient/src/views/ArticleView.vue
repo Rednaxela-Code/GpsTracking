@@ -3,6 +3,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import BackButton from '../components/BackButton.vue';
 import { reactive, onMounted } from 'vue';
 import { useRoute, RouterLink} from 'vue-router';
+import router from '/Dev//GpsTracking/src/VueJsClient/src/router';
 import axios from 'axios';
 
 const route = useRoute();
@@ -27,6 +28,21 @@ onMounted(async () => {
     state.isLoading = false;
   }
 });
+
+const onDelete = async () => {
+  state.isLoading = true;
+  try {
+    const url = `http://localhost:5219/api/Article/${articleId}`;
+    console.log(url);
+    const response = await axios.delete(url);
+    console.log('Deleted:', response);
+    router.push(`/articles/`);
+  } catch (error) {
+    console.error('Error deleting article', error);
+  } finally {
+    state.isLoading = false;
+  }
+};
 </script>
 
 <template>
@@ -101,7 +117,7 @@ onMounted(async () => {
                 class="bg-green-500 hover:bg-green-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
                 >Edit Article
                 </RouterLink>
-              <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block">
+              <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block" @click="onDelete">
                 Delete Article
               </button>
             </div>
