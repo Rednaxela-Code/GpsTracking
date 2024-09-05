@@ -4,11 +4,13 @@ import BackButton from '../components/BackButton.vue';
 import { reactive, onMounted } from 'vue';
 import { useRoute, RouterLink} from 'vue-router';
 import router from '/Dev//GpsTracking/src/VueJsClient/src/router';
+import { useToast } from 'vue-toastification';
 import axios from 'axios';
 
 const route = useRoute();
-
 const articleId = route.params.id;
+
+const toast = useToast();
 
 const state = reactive({
   Article: {},
@@ -18,10 +20,8 @@ const state = reactive({
 onMounted(async () => {
   try {
     const url = `	http://localhost:5219/api/Article/${articleId}`;
-    console.log(url);
     const response = await axios.get(url);
     state.Article = response.data;
-    console.log(response.data);
   } catch (error) {
     console.error('Error fetching article', error);
   } finally {
@@ -33,12 +33,12 @@ const onDelete = async () => {
   state.isLoading = true;
   try {
     const url = `http://localhost:5219/api/Article/${articleId}`;
-    console.log(url);
     const response = await axios.delete(url);
-    console.log('Deleted:', response);
     router.push(`/articles/`);
+    toast.success('Article Deleted');
   } catch (error) {
     console.error('Error deleting article', error);
+    toast.error('Error Deleting Article');
   } finally {
     state.isLoading = false;
   }

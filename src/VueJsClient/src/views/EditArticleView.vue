@@ -13,6 +13,8 @@ const state = reactive({
 const route = useRoute();
 const articleId = route.params.id;
 
+const toast = useToast();
+
 const form = reactive({
   id: '',
   name: '',
@@ -25,14 +27,13 @@ const form = reactive({
   authorEmail: ''
 });
 
-const toast = useToast();
+
 
 const handleSubmit = async () => {
   const newArticle = {
-    id: articleId,
+  id: articleId,
   name: form.name,
   author: form.author,
-  // datePublished: currentDateTime,
   subject: form.subject,
   content: form.content,
   category: form.category,
@@ -42,12 +43,11 @@ const handleSubmit = async () => {
 
   try {
     const url = `http://localhost:5219/api/Article/${articleId}`;
-    console.log(url);
     const response = await axios.put(url, newArticle);
-    toast.success('Article Posted');
-    console.log(response.data.id);
+    toast.success('Article Saved');
     router.push(`/articles/`);
   } catch (error) {
+    toast.error('Error While Saving');
     console.error('Error posting article', error);
   } finally {
   }
@@ -56,10 +56,8 @@ const handleSubmit = async () => {
 onMounted(async () => {
   try {
     const url = `	http://localhost:5219/api/Article/${articleId}`;
-    console.log(url);
     const response = await axios.get(url);
     state.Article = response.data;
-    console.log(response.data);
 
     form.author = state.Article.author,
     form.authorDescription = state.Article.authorDescription,

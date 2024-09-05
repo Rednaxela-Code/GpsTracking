@@ -4,8 +4,6 @@ import router from '/Dev//GpsTracking/src/VueJsClient/src/router';
 import { useToast } from 'vue-toastification';
 import axios from 'axios';
 
-const currentDateTime = reactive(new Date().toLocaleString());
-
 const form = reactive({
   id: '',
   name: '',
@@ -24,7 +22,6 @@ const handleSubmit = async () => {
   const newArticle = {
     name: form.name,
   author: form.author,
-  // datePublished: currentDateTime,
   subject: form.subject,
   content: form.content,
   category: form.category,
@@ -41,6 +38,7 @@ const handleSubmit = async () => {
     router.push(`/articles/`);
   } catch (error) {
     console.error('Error posting article', error);
+    toast.error('Error Posting Article');
   } finally {
   }
 };
