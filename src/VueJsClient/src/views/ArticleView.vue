@@ -89,7 +89,6 @@ const onDelete = async () => {
             </div>
           </main>
 
-          <!-- Sidebar -->
           <aside>
             <div class="bg-white p-6 rounded-lg shadow-md">
               <h3 class="text-xl font-bold mb-6">Author Info</h3>
@@ -109,7 +108,6 @@ const onDelete = async () => {
               </p>
             </div>
 
-            <!-- Manage -->
             <div class="bg-white p-6 rounded-lg shadow-md mt-6">
               <h3 class="text-xl font-bold mb-6">Manage Article</h3>
               <RouterLink
