@@ -1,5 +1,6 @@
 ﻿using Api.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 using System.Globalization;
 
@@ -26,7 +27,7 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            _context.gpsPoints.Add(point);
+            _context.GpsPoints.Add(point);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -43,7 +44,7 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            _context.gpsPoints.AddRange(points);
+            _context.GpsPoints.AddRange(points);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -52,15 +53,15 @@ namespace Api.Controllers
         [HttpGet("getAll")]
         public async Task<ActionResult> GetAll()
         {
-            var points = _context.gpsPoints.OrderBy(p => p.Timestamp);
+            var points = await _context.GpsPoints.OrderBy(p => p.Timestamp).ToListAsync();
 
             return Ok(points);
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<GpsPoint>> GetGpsPointById(Guid id)
+        public async Task<ActionResult<GpsPoint>> GetGpsPointById(int id)
         {
-            var gpsPoint = await _context.gpsPoints.FindAsync(id);
+            var gpsPoint = await _context.GpsPoints.FindAsync(id);
 
             if (gpsPoint == null)
             {
@@ -71,16 +72,16 @@ namespace Api.Controllers
         }
 
         [HttpGet("byIds")]
-        public async Task<ActionResult<List<GpsPoint>>> GetGpsPointsById([FromQuery] List<Guid> ids)
+        public async Task<ActionResult<List<GpsPoint>>> GetGpsPointsById([FromQuery] List<int> ids)
         {
             if (ids == null || !ids.Any())
             {
                 return BadRequest("No IDs provided.");
             }
 
-            var gpsPoints = _context.gpsPoints
+            var gpsPoints = await _context.GpsPoints
                                           .Where(g => ids.Contains(g.Id))
-                                          .ToList();
+                                          .ToListAsync();
 
             if (!gpsPoints.Any())
             {
@@ -98,7 +99,7 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            _context.gpsPoints.Remove(deletePoint);
+            _context.GpsPoints.Remove(deletePoint);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -112,21 +113,21 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            _context.gpsPoints.RemoveRange(pointsDelete);
+            _context.GpsPoints.RemoveRange(pointsDelete);
             await _context.SaveChangesAsync();
 
             return Ok();
         }
 
         [HttpPut("update")]
-        public async Task<IActionResult> UpdateGpsPoint(Guid id, GpsPoint gpsPoint)
+        public async Task<IActionResult> UpdateGpsPoint(int id, GpsPoint gpsPoint)
         {
             if (id != gpsPoint.Id)
             {
                 return BadRequest("ID mismatch");
             }
 
-            var existingPoint = await _context.gpsPoints.FindAsync(id);
+            var existingPoint = await _context.GpsPoints.FindAsync(id);
             if (existingPoint == null)
             {
                 return NotFound();
@@ -140,7 +141,7 @@ namespace Api.Controllers
 
             await _context.SaveChangesAsync();
 
-            if (!_context.gpsPoints.Any(e => e.Id == id))
+            if (!_context.GpsPoints.Any(e => e.Id == id))
             {
                 return NotFound();
             }
